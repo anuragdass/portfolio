@@ -1,14 +1,30 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { supabase } from "@/lib/supabase";
+
+type Status = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire up Formspree or similar
-    setSent(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    // Honeypot — bots fill this hidden field, humans don't
+    if (data.get("_hp")) return;
+
+    setStatus("loading");
+
+    const { error } = await supabase.from("contact_messages").insert({
+      name: data.get("name") as string,
+      email: data.get("email") as string,
+      message: data.get("message") as string,
+    });
+
+    setStatus(error ? "error" : "success");
   }
 
   return (
@@ -64,7 +80,7 @@ export default function Contact() {
 
         {/* ── Right: Form ───────────────────────────────────────────────── */}
         <div className="md:w-1/2 bg-surface-container-high p-8 ghost-border">
-          {sent ? (
+          {status === "success" ? (
             <div className="flex items-center justify-center h-64">
               <p className="font-mono text-sm tracking-widest text-primary uppercase text-glow">
                 TRANSMISSION RECEIVED.
@@ -72,6 +88,16 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+              {/* Honeypot — hidden from real users */}
+              <input
+                type="text"
+                name="_hp"
+                aria-hidden="true"
+                tabIndex={-1}
+                className="absolute opacity-0 h-0 w-0 pointer-events-none"
+                autoComplete="off"
+              />
+
               <div>
                 <label
                   htmlFor="name"
@@ -123,11 +149,18 @@ export default function Contact() {
                 />
               </div>
 
+              {status === "error" && (
+                <p className="font-mono text-xs text-error tracking-widest uppercase">
+                  TRANSMISSION FAILED. RETRY.
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-primary text-on-primary font-headline font-bold py-5 tracking-[0.3em] hover:bg-[#00ed7e] transition-all"
+                disabled={status === "loading"}
+                className="w-full bg-primary text-on-primary font-headline font-bold py-5 tracking-[0.3em] hover:bg-[#00ed7e] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                EXECUTE_SEND
+                {status === "loading" ? "TRANSMITTING..." : "EXECUTE_SEND"}
               </button>
             </form>
           )}
