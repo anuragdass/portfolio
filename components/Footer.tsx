@@ -1,4 +1,8 @@
+"use client";
+
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer
       aria-label="Site footer"
@@ -9,7 +13,7 @@ export default function Footer() {
       </div>
 
       <div className="font-label text-xs tracking-[0.2em] text-[#f9f5f8]/30 uppercase">
-        ©2025 CORE_PROTOCOL // ALL RIGHTS RESERVED
+        ©{year} CORE_PROTOCOL // ALL RIGHTS RESERVED
       </div>
 
       <div className="flex gap-8 font-label text-xs tracking-[0.2em] uppercase">
