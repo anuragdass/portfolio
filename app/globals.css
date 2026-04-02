@@ -144,6 +144,14 @@ body {
   padding-bottom: 0.25rem;
 }
 
+/* Mobile bottom nav — scroll / tap active state */
+.mobile-nav-link-active {
+  color: #00FF88 !important;
+}
+.mobile-nav-link-active .material-symbols-outlined {
+  color: #00FF88;
+}
+
 /* ─── Tech-noir image treatment ───────────────────────────────────────────── */
 .tech-noir-image {
   filter: grayscale(100%) contrast(110%) brightness(80%);

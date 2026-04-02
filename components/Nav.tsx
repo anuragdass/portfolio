@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
   { label: "/PROJECTS", href: "#projects" },
@@ -9,34 +9,73 @@ const NAV_ITEMS = [
   { label: "/CONTACT", href: "#contact" },
 ] as const;
 
+const MOBILE_ITEMS = [
+  { icon: "terminal", short: "WORK" },
+  { icon: "memory", short: "TECH" },
+  { icon: "history", short: "BIO" },
+  { icon: "alternate_email", short: "MAIL" },
+] as const;
+
+function sectionIdFromHref(href: string) {
+  return href.startsWith("#") ? href.slice(1) : "";
+}
+
 export default function Nav() {
-  const linksRef = useRef<HTMLAnchorElement[]>([]);
+  const desktopLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const mobileLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  const updateActiveFromScroll = useCallback(() => {
+    const sections = document.querySelectorAll("section[id]");
+    let current = "";
+    sections.forEach((section) => {
+      const top = (section as HTMLElement).offsetTop;
+      if (window.scrollY >= top - 150) {
+        current = section.getAttribute("id") ?? "";
+      }
+    });
+
+    NAV_ITEMS.forEach((item, i) => {
+      const id = sectionIdFromHref(item.href);
+      const isActive = Boolean(current && id === current);
+
+      const desktop = desktopLinksRef.current[i];
+      if (desktop) {
+        desktop.classList.toggle("nav-link-active", isActive);
+        desktop.classList.toggle("text-[#f9f5f8]/60", !isActive);
+        if (isActive) {
+          desktop.classList.remove("text-[#f9f5f8]/60");
+        }
+      }
+
+      const mobile = mobileLinksRef.current[i];
+      if (mobile) {
+        mobile.classList.toggle("mobile-nav-link-active", isActive);
+        mobile.classList.toggle("text-[#f9f5f8]/40", !isActive);
+        if (isActive) mobile.setAttribute("aria-current", "page");
+        else mobile.removeAttribute("aria-current");
+      }
+    });
+  }, []);
+
+  const scheduleNavUpdate = useCallback(() => {
+    window.requestAnimationFrame(() => {
+      window.setTimeout(updateActiveFromScroll, 400);
+    });
+  }, [updateActiveFromScroll]);
 
   useEffect(() => {
-    const sections = document.querySelectorAll("section[id]");
+    updateActiveFromScroll();
 
-    function onScroll() {
-      let current = "";
-      sections.forEach((section) => {
-        const top = (section as HTMLElement).offsetTop;
-        if (window.scrollY >= top - 150) {
-          current = section.getAttribute("id") ?? "";
-        }
-      });
+    window.addEventListener("scroll", updateActiveFromScroll, { passive: true });
+    window.addEventListener("hashchange", updateActiveFromScroll);
+    window.addEventListener("resize", updateActiveFromScroll);
 
-      linksRef.current.forEach((link) => {
-        link.classList.remove("nav-link-active");
-        link.classList.add("text-[#f9f5f8]/60");
-        if (current && link.getAttribute("href")?.includes(current)) {
-          link.classList.add("nav-link-active");
-          link.classList.remove("text-[#f9f5f8]/60");
-        }
-      });
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", updateActiveFromScroll);
+      window.removeEventListener("hashchange", updateActiveFromScroll);
+      window.removeEventListener("resize", updateActiveFromScroll);
+    };
+  }, [updateActiveFromScroll]);
 
   return (
     <>
@@ -57,7 +96,10 @@ export default function Nav() {
             <a
               key={label}
               href={href}
-              ref={(el) => { if (el) linksRef.current[i] = el; }}
+              ref={(el) => {
+                desktopLinksRef.current[i] = el;
+              }}
+              onClick={scheduleNavUpdate}
               className="text-[#f9f5f8]/60 hover:text-[#f9f5f8] transition-colors"
             >
               {label}
@@ -77,24 +119,29 @@ export default function Nav() {
       {/* ── Mobile Bottom Nav ───────────────────────────────────────────── */}
       <nav
         aria-label="Mobile navigation"
-        className="fixed bottom-0 w-full z-50 sm:hidden bg-[#0e0e10]/90 backdrop-blur-lg border-t border-[#00FF88]/20 flex justify-around items-center h-16 px-4 shadow-[0_-4px_12px_rgba(0,255,136,0.1)]"
+        className="fixed bottom-0 w-full z-50 sm:hidden bg-[#0e0e10]/90 backdrop-blur-lg border-t border-[#00FF88]/20 flex justify-around items-center h-16 px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-[0_-4px_12px_rgba(0,255,136,0.1)]"
       >
-        <a href="#projects" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
-          <span className="material-symbols-outlined text-xl">terminal</span>
-          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">WORK</span>
-        </a>
-        <a href="#stack" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
-          <span className="material-symbols-outlined text-xl">memory</span>
-          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">TECH</span>
-        </a>
-        <a href="#experience" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
-          <span className="material-symbols-outlined text-xl">history</span>
-          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">BIO</span>
-        </a>
-        <a href="#contact" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
-          <span className="material-symbols-outlined text-xl">alternate_email</span>
-          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">MAIL</span>
-        </a>
+        {NAV_ITEMS.map(({ href }, i) => {
+          const { icon, short } = MOBILE_ITEMS[i];
+          return (
+            <a
+              key={href}
+              href={href}
+              ref={(el) => {
+                mobileLinksRef.current[i] = el;
+              }}
+              onClick={scheduleNavUpdate}
+              className="flex min-w-[3.5rem] flex-col items-center justify-center gap-0.5 text-[#f9f5f8]/40 transition-colors duration-200 active:opacity-80"
+            >
+              <span className="material-symbols-outlined text-xl leading-none">
+                {icon}
+              </span>
+              <span className="font-label text-[8px] tracking-widest uppercase leading-none">
+                {short}
+              </span>
+            </a>
+          );
+        })}
       </nav>
     </>
   );
