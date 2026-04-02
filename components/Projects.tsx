@@ -7,11 +7,11 @@ const PROJECTS = [
     description:
       "Developing Vertex AI powered SQL agents integrated with PostgreSQL. Built complex data ingestion pipelines and intelligent retrieval mechanisms for enterprise-scale structured data.",
     techs: ["Vertex AI", "PostgreSQL", "Python"],
-    // CSS gradient abstract — replace with real screenshot when available
     gradient:
       "radial-gradient(ellipse 80% 60% at 60% 50%, rgba(0,255,136,0.06) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 80% 30%, rgba(0,200,100,0.04) 0%, transparent 50%)",
+    logoUrl: "https://cynetgpt.web.app/logo.png",
     liveUrl: "",
-    sourceUrl: "",
+    sourceUrl: "https://cynetgpt.web.app/",
     reverse: false,
   },
   {
@@ -24,6 +24,8 @@ const PROJECTS = [
     techs: ["LLM Eval", "GCS", "Django"],
     gradient:
       "radial-gradient(ellipse 60% 70% at 30% 60%, rgba(0,255,136,0.05) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 70% 20%, rgba(0,180,90,0.04) 0%, transparent 50%)",
+    logoUrl:
+      "https://storage.googleapis.com/rocketrecall-question-images/staticfiles/images/logo.svg",
     liveUrl: "",
     sourceUrl: "https://rocketrecall.org/",
     reverse: true,
@@ -72,6 +74,14 @@ export default function Projects() {
                   backgroundSize: "40px 40px",
                 }}
               />
+              {/* Project logo */}
+              {p.logoUrl && (
+                <img
+                  src={p.logoUrl}
+                  alt={`${p.title} logo`}
+                  className="absolute inset-0 m-auto h-1/3 w-auto z-[5] opacity-70 group-hover:opacity-100 transition-opacity duration-500"
+                />
+              )}
               {/* Scan line overlay */}
               <div className="scanlines" />
               {/* Project tag */}
