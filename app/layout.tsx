@@ -22,7 +22,8 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   icons: {
-    icon: "/favicon.ico",
+    icon: [{ url: "/images/profile.png", type: "image/png" }],
+    apple: "/images/profile.png",
   },
   title: "Anurag Das — Backend & AI Engineer",
   description:
