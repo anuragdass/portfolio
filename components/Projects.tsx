@@ -25,7 +25,7 @@ const PROJECTS = [
     gradient:
       "radial-gradient(ellipse 60% 70% at 30% 60%, rgba(0,255,136,0.05) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 70% 20%, rgba(0,180,90,0.04) 0%, transparent 50%)",
     liveUrl: "",
-    sourceUrl: "https://github.com/anuragdass",
+    sourceUrl: "https://rocketrecall.org/",
     reverse: true,
   },
 ];
