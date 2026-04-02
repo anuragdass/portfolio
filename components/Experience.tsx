@@ -67,19 +67,19 @@ export default function Experience() {
 
             {/* Rubicoit — single continuous left line for both roles */}
             <div className="relative pl-10 border-l border-outline-variant/30">
-              {/* Company label at the top of the shared block */}
-              <div className="font-label text-xs tracking-widest mb-10 text-on-surface-variant">
-                RUBICOIT
-              </div>
-
               <div className="space-y-16">
                 {RUBICOIT.map((role) => (
                   <div key={role.title} className="relative">
                     <div className="absolute left-[-2.625rem] top-0 w-[9px] h-[9px] bg-outline-variant" />
                     <div className="flex justify-between items-start mb-4">
-                      <h3 className="font-headline text-xl font-bold text-on-surface">
-                        {role.title}
-                      </h3>
+                      <div>
+                        <h3 className="font-headline text-xl font-bold text-on-surface">
+                          {role.title}
+                        </h3>
+                        <div className="font-label text-xs tracking-widest mt-1 text-on-surface-variant">
+                          RUBICOIT
+                        </div>
+                      </div>
                       <span className="font-label text-on-surface-variant text-xs shrink-0 ml-4">
                         {role.period}
                       </span>
