@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const PROJECTS = [
   {
     tag: "AGENTIC_SQL",
@@ -9,9 +7,10 @@ const PROJECTS = [
     description:
       "Developing Vertex AI powered SQL agents integrated with PostgreSQL. Built complex data ingestion pipelines and intelligent retrieval mechanisms for enterprise-scale structured data.",
     techs: ["Vertex AI", "PostgreSQL", "Python"],
-    image: "/images/cynetgpt.jpg",
-    imageAlt: "Dark abstract representation of database nodes connecting via glowing lines",
-    liveUrl: "#",
+    // CSS gradient abstract — replace with real screenshot when available
+    gradient:
+      "radial-gradient(ellipse 80% 60% at 60% 50%, rgba(0,255,136,0.06) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 80% 30%, rgba(0,200,100,0.04) 0%, transparent 50%)",
+    liveUrl: "",
     sourceUrl: "",
     reverse: false,
   },
@@ -23,8 +22,8 @@ const PROJECTS = [
     description:
       "AI-powered flashcard generation platform. Features automated LLM evaluation workflows and integrated GCS for dynamic image generation and cloud storage handling. Built with Django and optimized for educational workflows.",
     techs: ["LLM Eval", "GCS", "Django"],
-    image: "/images/rocketrecall.jpg",
-    imageAlt: "Neural network visualization with sparks of green light",
+    gradient:
+      "radial-gradient(ellipse 60% 70% at 30% 60%, rgba(0,255,136,0.05) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 70% 20%, rgba(0,180,90,0.04) 0%, transparent 50%)",
     liveUrl: "",
     sourceUrl: "https://github.com/anuragdass",
     reverse: true,
@@ -57,16 +56,27 @@ export default function Projects() {
               p.reverse ? "md:flex-row-reverse" : "md:flex-row"
             }`}
           >
-            {/* Image */}
+            {/* Abstract image card */}
             <div className="w-full md:w-3/5 aspect-video bg-surface-container-high relative overflow-hidden ghost-border group">
-              <Image
-                src={p.image}
-                alt={p.imageAlt}
-                fill
-                className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0"
-              />
+              {/* Atmospheric gradient background */}
               <div
-                className={`absolute top-6 ${p.tagAlign === "right" ? "right-6" : "left-6"} font-label bg-background px-3 py-1 text-[10px] tracking-widest text-primary border border-primary/20`}
+                className="absolute inset-0"
+                style={{ background: p.gradient }}
+              />
+              {/* Subtle grid lines */}
+              <div
+                className="absolute inset-0 opacity-[0.04]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(0,255,136,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.5) 1px, transparent 1px)",
+                  backgroundSize: "40px 40px",
+                }}
+              />
+              {/* Scan line overlay */}
+              <div className="scanlines" />
+              {/* Project tag */}
+              <div
+                className={`absolute top-6 ${p.tagAlign === "right" ? "right-6" : "left-6"} font-label bg-background px-3 py-1 text-[10px] tracking-widest text-primary border border-primary/20 z-10`}
               >
                 {p.tag}
               </div>
@@ -82,7 +92,6 @@ export default function Projects() {
                 {p.description}
               </p>
 
-              {/* Tech tags — slash separated */}
               <div className="flex flex-wrap gap-2 mb-10">
                 {p.techs.map((t, i) => (
                   <span key={t}>
@@ -98,8 +107,7 @@ export default function Projects() {
                 ))}
               </div>
 
-              {/* Links */}
-              {p.liveUrl && p.liveUrl !== "#" && (
+              {p.liveUrl && (
                 <a
                   href={p.liveUrl}
                   target="_blank"

@@ -10,6 +10,16 @@ export default function Hero() {
       aria-label="Introduction"
       className="min-h-[calc(100vh-5rem)] flex flex-col md:flex-row relative overflow-hidden border-b border-outline-variant/10"
     >
+      {/* ── Abstract radial glow — cinematic depth behind headline ───── */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 60% at 15% 50%, rgba(0,255,136,0.05) 0%, transparent 70%)",
+        }}
+      />
+
       {/* ── Left: Text content ────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col justify-center px-8 md:px-16 py-20 z-10">
         <div className="font-label text-primary mb-6 tracking-[0.4em] text-xs">
