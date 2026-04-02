@@ -1,89 +1,82 @@
-type BentoItem = {
-  index: string;
-  title: string;
-  techs: string[];
-  span?: string;
-  accent?: boolean;
-};
-
-const BENTO_ITEMS: BentoItem[] = [
-  {
-    index: "01",
-    title: "Core Languages & Web",
-    techs: ["Python", "Django", "FastAPI"],
-    span: "col-span-2",
-  },
-  {
-    index: "02",
-    title: "Gen AI Engineering",
-    techs: ["LangChain", "LangGraph", "Vertex AI", "RAG Systems"],
-    span: "col-span-2",
-    accent: true,
-  },
-  {
-    index: "03",
-    title: "Data Persistence",
-    techs: ["PostgreSQL", "pgVector", "Redis", "MSSQL"],
-    span: "col-span-1",
-  },
-  {
-    index: "04",
-    title: "Cloud & Infra",
-    techs: ["GCP Cloud Run", "Docker", "Celery", "GitHub Actions"],
-    span: "col-span-3",
-  },
-];
-
-function Tag({ label }: { label: string }) {
-  return (
-    <span className="font-mono text-[10px] tracking-[0.15em] px-2 py-1 border border-[rgba(118,117,119,0.15)] text-[#8c8c8e] uppercase">
-      {label}
-    </span>
-  );
-}
-
 export default function Stack() {
   return (
-    <section
-      id="stack"
-      aria-label="Technology stack"
-      className="px-6 md:px-8 lg:px-16 py-24"
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="mb-12">
-          <span className="font-mono text-[10px] tracking-[0.2em] text-[#00ff88] uppercase">
-            01 // THE STACK
-          </span>
-          <h2 className="font-headline font-bold text-3xl md:text-4xl text-[#f9f5f8] mt-2 tracking-[-0.02em]">
-            Technologies I Work With
-          </h2>
+    <section id="stack" aria-label="Technology stack" className="py-32 px-8 max-w-7xl mx-auto">
+      <div className="flex justify-between items-end mb-20 border-b border-outline-variant/30 pb-8">
+        <h2 className="font-headline text-4xl font-bold tracking-tighter">
+          01 // THE STACK
+        </h2>
+        <div className="font-label text-on-surface-variant text-xs tracking-widest uppercase">
+          Verified Expertise
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Core Languages & Web */}
+        <div className="md:col-span-2 bg-surface-container-low p-8 ghost-border hover:border-primary/30 transition-all">
+          <div className="font-label text-primary text-xs tracking-widest mb-8">
+            / CORE_LANGUAGES_&amp;_WEB
+          </div>
+          <div className="flex flex-wrap gap-4">
+            {["PYTHON", "DJANGO", "FASTAPI"].map((t) => (
+              <span
+                key={t}
+                className="px-4 py-2 bg-surface-container-high border border-outline-variant/20 font-label text-sm text-on-surface"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
 
-        {/* Bento grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[rgba(118,117,119,0.15)]">
-          {BENTO_ITEMS.map((item) => (
-            <article
-              key={item.index}
-              className={`${item.span ?? ""} bg-[#0e0e10] p-6 flex flex-col gap-4 hover:bg-[#141416] transition-colors`}
-            >
-              <span className="font-mono text-[10px] tracking-[0.2em] text-[#00ff88] uppercase">
-                {item.index}
-              </span>
-              <h3
-                className={`font-headline font-semibold text-base tracking-tight ${
-                  item.accent ? "text-[#00ff88]" : "text-[#f9f5f8]"
-                }`}
+        {/* Gen AI Engineering */}
+        <div className="md:col-span-2 bg-surface-container-low p-8 ghost-border hover:border-primary/30 transition-all">
+          <div className="font-label text-primary text-xs tracking-widest mb-8">
+            / GEN_AI_ENGINEERING
+          </div>
+          <div className="flex flex-wrap gap-4">
+            {["LANGCHAIN", "LANGGRAPH", "VERTEX AI", "RAG SYSTEMS"].map((t) => (
+              <span
+                key={t}
+                className="px-4 py-2 bg-primary/10 border border-primary/30 text-primary font-label text-sm"
               >
-                {item.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {item.techs.map((t) => (
-                  <Tag key={t} label={t} />
-                ))}
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Data Persistence */}
+        <div className="md:col-span-1 bg-surface-container-low p-8 ghost-border hover:border-primary/30 transition-all">
+          <div className="font-label text-primary text-xs tracking-widest mb-8">
+            / DATA_PERSISTENCE
+          </div>
+          <ul className="space-y-4 font-label text-sm text-on-surface-variant">
+            {["POSTGRESQL", "PGVECTOR", "REDIS", "MSSQL"].map((t) => (
+              <li key={t}>/ {t}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Cloud & Infra */}
+        <div className="md:col-span-3 bg-surface-container-low p-8 ghost-border hover:border-primary/30 transition-all flex flex-col justify-between">
+          <div className="font-label text-primary text-xs tracking-widest mb-8">
+            / CLOUD_&amp;_INFRA
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { sub: "GCP Ecosystem", name: "CLOUD RUN" },
+              { sub: "Virtualization", name: "DOCKER" },
+              { sub: "Asynchronous", name: "CELERY" },
+              { sub: "Pipeline", name: "GITHUB ACTIONS" },
+            ].map(({ sub, name }) => (
+              <div key={name} className="flex flex-col">
+                <span className="text-xs text-on-surface-variant mb-1 uppercase tracking-tighter">
+                  {sub}
+                </span>
+                <span className="font-label text-on-surface">{name}</span>
               </div>
-            </article>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

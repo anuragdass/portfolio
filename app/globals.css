@@ -2,22 +2,72 @@
 
 /* ─── Design Tokens (Tailwind v4 @theme) ─────────────────────────────────── */
 @theme inline {
-  /* Colors */
-  --color-noir-bg:         #0e0e10;
-  --color-noir-void:       #000000;
-  --color-noir-surface:    #141416;
-  --color-noir-elevated:   #1f1f22;
-  --color-noir-fg:         #f9f5f8;
-  --color-noir-muted:      #8c8c8e;
-  --color-primary:         #00ff88;
-  --color-primary-dim:     rgba(0, 255, 136, 0.1);
+  /* ── Color system (matches original Stitch export exactly) ── */
+  --color-background:              #0e0e10;
+  --color-surface:                 #0e0e10;
+  --color-surface-dim:             #0e0e10;
+  --color-surface-container-lowest: #000000;
+  --color-surface-container-low:   #131315;
+  --color-surface-container:       #19191c;
+  --color-surface-container-high:  #1f1f22;
+  --color-surface-container-highest: #262528;
+  --color-surface-bright:          #2c2c2f;
+  --color-surface-variant:         #262528;
 
-  /* Typography */
+  --color-on-background:           #f9f5f8;
+  --color-on-surface:              #f9f5f8;
+  --color-on-surface-variant:      #adaaad;
+  --color-inverse-on-surface:      #565557;
+  --color-inverse-surface:         #fcf8fb;
+
+  --color-primary:                 #00FF88;
+  --color-primary-dim:             #00ed7e;
+  --color-primary-fixed:           #00fd87;
+  --color-primary-fixed-dim:       #00ed7e;
+  --color-on-primary:              #006532;
+  --color-on-primary-fixed:        #004621;
+  --color-on-primary-fixed-variant: #006632;
+  --color-on-primary-container:    #005b2c;
+  --color-primary-container:       #00fd87;
+  --color-inverse-primary:         #006e37;
+
+  --color-secondary:               #e2e2e4;
+  --color-secondary-dim:           #d4d4d6;
+  --color-secondary-fixed:         #e2e2e4;
+  --color-secondary-fixed-dim:     #d4d4d6;
+  --color-secondary-container:     #454749;
+  --color-on-secondary:            #505254;
+  --color-on-secondary-fixed:      #3e3f41;
+  --color-on-secondary-fixed-variant: #5a5c5d;
+  --color-on-secondary-container:  #d0d0d2;
+
+  --color-tertiary:                #7ee6ff;
+  --color-tertiary-dim:            #00cdee;
+  --color-tertiary-fixed:          #00dcff;
+  --color-tertiary-fixed-dim:      #00cdee;
+  --color-tertiary-container:      #00dcff;
+  --color-on-tertiary:             #005361;
+  --color-on-tertiary-fixed:       #00333d;
+  --color-on-tertiary-fixed-variant: #005361;
+  --color-on-tertiary-container:   #004956;
+
+  --color-outline:                 #767577;
+  --color-outline-variant:         #48474a;
+  --color-surface-tint:            #a4ffb9;
+
+  --color-error:                   #ff716c;
+  --color-error-dim:               #d7383b;
+  --color-error-container:         #9f0519;
+  --color-on-error:                #490006;
+  --color-on-error-container:      #ffa8a3;
+
+  /* ── Typography ── */
   --font-headline: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  --font-label:    var(--font-space-grotesk), "Space Grotesk", sans-serif;
   --font-body:     var(--font-inter), "Inter", sans-serif;
   --font-mono:     var(--font-space-mono), "Space Mono", monospace;
 
-  /* Border radius — zero everywhere (Tech Noir rule) */
+  /* ── Border radius (full stays round, everything else 0) ── */
   --radius-none: 0px;
   --radius-sm:   0px;
   --radius:      0px;
@@ -26,34 +76,27 @@
   --radius-xl:   0px;
   --radius-2xl:  0px;
   --radius-3xl:  0px;
-  --radius-full: 0px;
+  --radius-full: 9999px;
 
-  /* Animations */
+  /* ── Animations ── */
   --animate-marquee:          marquee 60s linear infinite;
   --animate-marquee-vertical: marquee-vertical 30s linear infinite;
 
   @keyframes marquee {
-    0%   { transform: translateX(0); }
+    0%   { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
 
   @keyframes marquee-vertical {
-    0%   { transform: translateY(0); }
+    0%   { transform: translateY(0%); }
     100% { transform: translateY(-50%); }
   }
 }
 
-/* ─── Base Reset ──────────────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-  background-color: #0e0e10;
-}
+html { scroll-behavior: smooth; background-color: #0e0e10; }
 
 body {
   background-color: #0e0e10;
@@ -64,99 +107,64 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── Global Noise Overlay ────────────────────────────────────────────────── */
-body::before {
-  content: "";
+/* Text selection */
+::selection {
+  background-color: #00FF88;
+  color: #006532;
+}
+
+/* ─── Material Symbols weight ─────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 24;
+}
+
+/* ─── Noise overlay ───────────────────────────────────────────────────────── */
+.noise {
   position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.03;
   z-index: 9999;
-}
-
-/* ─── Reusable Effect Classes ─────────────────────────────────────────────── */
-
-/* Neon glow on element border */
-.glow-accent {
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
-}
-
-/* Text glow */
-.text-glow {
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-}
-
-/* Ghost border — tonal shift without a hard line */
-.ghost-border {
-  border: 1px solid rgba(118, 117, 119, 0.15);
-}
-
-/* Neon border */
-.neon-border {
-  border: 1px solid #00ff88;
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.15);
-}
-
-/* Scanlines overlay on images */
-.scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.05) 2px,
-    rgba(0, 0, 0, 0.05) 4px
-  );
   pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
 }
 
-/* Tech-noir image treatment */
-.img-noir {
+/* ─── Utility effects ─────────────────────────────────────────────────────── */
+.ghost-border  { border: 1px solid rgba(118, 117, 119, 0.15); }
+.glow-accent   { box-shadow: 0 0 15px rgba(0, 255, 136, 0.1); }
+.text-glow     { text-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
+.image-glow    { box-shadow: 0 0 40px rgba(0, 255, 136, 0.15); }
+
+/* ─── Nav active link ─────────────────────────────────────────────────────── */
+.nav-link-active {
+  color: #00FF88 !important;
+  border-bottom: 2px solid #00FF88;
+  padding-bottom: 0.25rem;
+}
+
+/* ─── Tech-noir image treatment ───────────────────────────────────────────── */
+.tech-noir-image {
   filter: grayscale(100%) contrast(110%) brightness(80%);
 }
 
-/* Corner bracket decoration */
-.corner-bracket::before,
-.corner-bracket::after {
-  content: "";
+/* ─── Scanlines overlay ───────────────────────────────────────────────────── */
+.scanlines {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: #00ff88;
-  border-style: solid;
-}
-.corner-bracket::before {
-  top: -2px;
-  left: -2px;
-  border-width: 2px 0 0 2px;
-}
-.corner-bracket::after {
-  bottom: -2px;
-  right: -2px;
-  border-width: 0 2px 2px 0;
-}
-
-/* Capability bar hover animation base */
-.cap-bar {
-  display: block;
-  height: 2px;
-  width: 8px;
-  background-color: #00ff88;
-  transition: width 0.4s ease;
-}
-.cap-card:hover .cap-bar {
+  top: 0;
+  left: 0;
   width: 100%;
-}
-
-/* Nav active underline */
-.nav-link-active::after {
-  content: "";
-  display: block;
-  height: 1px;
-  background-color: #00ff88;
-  margin-top: 2px;
-  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 20;
 }

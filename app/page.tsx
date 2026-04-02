@@ -10,8 +10,12 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      {/* Film-grain noise overlay */}
+      <div className="noise" aria-hidden="true" />
+
       <Nav />
-      <main>
+
+      <main className="pt-20">
         <Hero />
         <Stack />
         <Capabilities />
@@ -19,6 +23,7 @@ export default function Home() {
         <Experience />
         <Contact />
       </main>
+
       <Footer />
     </>
   );

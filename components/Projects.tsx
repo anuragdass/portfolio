@@ -1,137 +1,133 @@
 import Image from "next/image";
 
-type Project = {
-  index: string;
-  title: string;
-  description: string;
-  tags: string[];
-  image: string;
-  liveUrl?: string;
-  sourceUrl?: string;
-  imageLeft: boolean;
-};
-
-const PROJECTS: Project[] = [
+const PROJECTS = [
   {
-    index: "01",
+    tag: "AGENTIC_SQL",
+    tagAlign: "left" as const,
+    label: "/ CYNET_GPT_v1",
     title: "CynetGPT",
     description:
-      "Vertex AI powered SQL agents that translate natural language into optimised PostgreSQL queries. Built with LangGraph multi-agent orchestration, pgVector for semantic search, and a FastAPI backend serving sub-200ms responses.",
-    tags: ["Vertex AI", "LangGraph", "PostgreSQL", "FastAPI", "pgVector"],
+      "Developing Vertex AI powered SQL agents integrated with PostgreSQL. Built complex data ingestion pipelines and intelligent retrieval mechanisms for enterprise-scale structured data.",
+    techs: ["Vertex AI", "PostgreSQL", "Python"],
     image: "/images/cynetgpt.jpg",
+    imageAlt: "Dark abstract representation of database nodes connecting via glowing lines",
     liveUrl: "#",
-    sourceUrl: "#",
-    imageLeft: false,
+    sourceUrl: "",
+    reverse: false,
   },
   {
-    index: "02",
+    tag: "ED_TECH_AI",
+    tagAlign: "right" as const,
+    label: "/ ROCKET_RECALL",
     title: "RocketRecall",
     description:
-      "AI-powered flashcard generation with LLM-based evaluation. Ingests documents via GCS, runs through a Django pipeline, and produces spaced-repetition decks with automated difficulty scoring.",
-    tags: ["Django", "LangChain", "GCS", "PostgreSQL", "Celery"],
+      "AI-powered flashcard generation platform. Features automated LLM evaluation workflows and integrated GCS for dynamic image generation and cloud storage handling. Built with Django and optimized for educational workflows.",
+    techs: ["LLM Eval", "GCS", "Django"],
     image: "/images/rocketrecall.jpg",
-    liveUrl: "#",
-    sourceUrl: "#",
-    imageLeft: true,
+    imageAlt: "Neural network visualization with sparks of green light",
+    liveUrl: "",
+    sourceUrl: "https://github.com/anuragdass",
+    reverse: true,
   },
 ];
-
-function Tag({ label }: { label: string }) {
-  return (
-    <span className="font-mono text-[10px] tracking-[0.15em] px-2 py-1 border border-[rgba(118,117,119,0.15)] text-[#8c8c8e] uppercase">
-      {label}
-    </span>
-  );
-}
 
 export default function Projects() {
   return (
     <section
       id="projects"
       aria-label="Selected projects"
-      className="px-6 md:px-8 lg:px-16 py-24"
+      className="py-32 px-8 max-w-7xl mx-auto"
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="mb-16">
-          <span className="font-mono text-[10px] tracking-[0.2em] text-[#00ff88] uppercase">
+      <div className="flex justify-between items-end mb-20">
+        <div>
+          <h2 className="font-headline text-4xl font-bold tracking-tighter">
             03 // SELECTED PROJECTS
-          </span>
-          <h2 className="font-headline font-bold text-3xl md:text-4xl text-[#f9f5f8] mt-2 tracking-[-0.02em]">
-            Work I&apos;m Proud Of
           </h2>
+          <p className="text-on-surface-variant font-body mt-2">
+            Production-grade AI and scalable architectures.
+          </p>
         </div>
+      </div>
 
-        {/* Project list */}
-        <div className="flex flex-col gap-24">
-          {PROJECTS.map((project) => (
-            <article
-              key={project.index}
-              className={`grid grid-cols-1 md:grid-cols-10 gap-8 items-center`}
-            >
-              {/* Image — alternating position */}
+      <div className="space-y-32">
+        {PROJECTS.map((p) => (
+          <article
+            key={p.title}
+            className={`flex flex-col gap-12 items-center ${
+              p.reverse ? "md:flex-row-reverse" : "md:flex-row"
+            }`}
+          >
+            {/* Image */}
+            <div className="w-full md:w-3/5 aspect-video bg-surface-container-high relative overflow-hidden ghost-border group">
+              <Image
+                src={p.image}
+                alt={p.imageAlt}
+                fill
+                className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0"
+              />
               <div
-                className={`relative md:col-span-6 overflow-hidden group ${
-                  project.imageLeft ? "md:order-first" : "md:order-last"
-                }`}
+                className={`absolute top-6 ${p.tagAlign === "right" ? "right-6" : "left-6"} font-label bg-background px-3 py-1 text-[10px] tracking-widest text-primary border border-primary/20`}
               >
-                <div className="relative scanlines ghost-border overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={`${project.title} screenshot`}
-                    width={720}
-                    height={450}
-                    className="img-noir w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
+                {p.tag}
+              </div>
+            </div>
+
+            {/* Text */}
+            <div className="w-full md:w-2/5">
+              <div className="font-label text-primary text-xs mb-4">{p.label}</div>
+              <h3 className="font-headline text-3xl font-bold mb-6 tracking-tight">
+                {p.title}
+              </h3>
+              <p className="text-on-surface-variant mb-8 leading-relaxed">
+                {p.description}
+              </p>
+
+              {/* Tech tags — slash separated */}
+              <div className="flex flex-wrap gap-2 mb-10">
+                {p.techs.map((t, i) => (
+                  <span key={t}>
+                    <span className="text-[10px] font-label text-on-surface/40 uppercase tracking-widest">
+                      {t}
+                    </span>
+                    {i < p.techs.length - 1 && (
+                      <span className="text-[10px] font-label text-on-surface/40 uppercase tracking-widest ml-2">
+                        /
+                      </span>
+                    )}
+                  </span>
+                ))}
               </div>
 
-              {/* Text */}
-              <div
-                className={`md:col-span-4 flex flex-col gap-5 ${
-                  project.imageLeft ? "md:order-last" : "md:order-first"
-                }`}
-              >
-                <span className="font-mono text-[10px] tracking-[0.2em] text-[#8c8c8e] uppercase">
-                  {project.index}
-                </span>
-                <h3 className="font-headline font-bold text-2xl md:text-3xl text-[#f9f5f8] tracking-[-0.02em]">
-                  {project.title}
-                </h3>
-                <p className="font-body text-sm text-[#8c8c8e] leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((t) => (
-                    <Tag key={t} label={t} />
-                  ))}
-                </div>
-                <div className="flex gap-4 mt-2">
-                  {project.liveUrl && project.liveUrl !== "#" && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-[10px] tracking-widest text-[#00ff88] hover:text-glow transition-all uppercase"
-                    >
-                      VIEW_DETAILS →
-                    </a>
-                  )}
-                  {project.sourceUrl && project.sourceUrl !== "#" && (
-                    <a
-                      href={project.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-[10px] tracking-widest text-[#8c8c8e] hover:text-[#f9f5f8] transition-colors uppercase"
-                    >
-                      VIEW_SOURCE →
-                    </a>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+              {/* Links */}
+              {p.liveUrl && p.liveUrl !== "#" && (
+                <a
+                  href={p.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-headline font-bold text-sm tracking-widest flex items-center gap-2 group mb-4"
+                >
+                  VIEW_DETAILS{" "}
+                  <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </a>
+              )}
+              {p.sourceUrl && (
+                <a
+                  href={p.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-headline font-bold text-sm tracking-widest flex items-center gap-2 group"
+                >
+                  VIEW_SOURCE{" "}
+                  <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

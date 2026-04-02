@@ -1,37 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
-  { label: "PROJECTS", href: "#projects" },
-  { label: "STACK", href: "#stack" },
-  { label: "EXPERIENCE", href: "#experience" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "/PROJECTS", href: "#projects" },
+  { label: "/STACK", href: "#stack" },
+  { label: "/EXPERIENCE", href: "#experience" },
+  { label: "/CONTACT", href: "#contact" },
 ] as const;
 
-const SECTION_IDS = ["projects", "stack", "experience", "contact"] as const;
-
 export default function Nav() {
-  const [active, setActive] = useState<string>("");
+  const linksRef = useRef<HTMLAnchorElement[]>([]);
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
+    const sections = document.querySelectorAll("section[id]");
 
-    SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
+    function onScroll() {
+      let current = "";
+      sections.forEach((section) => {
+        const top = (section as HTMLElement).offsetTop;
+        if (window.scrollY >= top - 150) {
+          current = section.getAttribute("id") ?? "";
+        }
+      });
 
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActive(id);
-        },
-        { threshold: 0.3 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
+      linksRef.current.forEach((link) => {
+        link.classList.remove("nav-link-active");
+        link.classList.add("text-[#f9f5f8]/60");
+        if (current && link.getAttribute("href")?.includes(current)) {
+          link.classList.add("nav-link-active");
+          link.classList.remove("text-[#f9f5f8]/60");
+        }
+      });
+    }
 
-    return () => observers.forEach((o) => o.disconnect());
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -39,38 +43,31 @@ export default function Nav() {
       {/* ── Desktop Nav ─────────────────────────────────────────────────── */}
       <nav
         aria-label="Primary navigation"
-        className="fixed top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8 py-5 border-b border-[rgba(118,117,119,0.12)]"
-        style={{ backgroundColor: "rgba(14,14,16,0.85)", backdropFilter: "blur(12px)" }}
+        className="fixed top-0 w-full z-50 bg-[#0e0e10]/80 backdrop-blur-xl border-b border-[#00FF88]/10 flex justify-between items-center px-8 h-20"
       >
-        <a
-          href="#"
-          className="font-headline font-bold text-sm tracking-widest text-[#f9f5f8] uppercase"
-        >
+        <div className="font-headline font-bold text-xl tracking-tighter text-[#f9f5f8]">
           ANURAG DAS
-        </a>
+        </div>
 
-        <ul className="flex items-center gap-8" role="list">
-          {NAV_ITEMS.map(({ label, href }) => {
-            const id = href.slice(1);
-            const isActive = active === id;
-            return (
-              <li key={label}>
-                <a
-                  href={href}
-                  className={`font-mono text-xs tracking-widest transition-colors ${
-                    isActive ? "text-[#00ff88] nav-link-active" : "text-[#8c8c8e] hover:text-[#f9f5f8]"
-                  }`}
-                >
-                  /{label}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+        <div
+          id="main-nav"
+          className="hidden md:flex gap-8 font-headline tracking-tight uppercase text-sm"
+        >
+          {NAV_ITEMS.map(({ label, href }, i) => (
+            <a
+              key={label}
+              href={href}
+              ref={(el) => { if (el) linksRef.current[i] = el; }}
+              className="text-[#f9f5f8]/60 hover:text-[#f9f5f8] transition-colors"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
 
         <a
-          href="mailto:anuragdas@example.com"
-          className="font-mono text-xs tracking-widest px-4 py-2 bg-[#00ff88] text-[#0e0e10] font-bold hover:bg-[#00e07a] transition-colors"
+          href="mailto:anuragdas95000@gmail.com"
+          className="bg-[#00FF88] text-on-primary px-6 py-2 font-headline font-bold text-xs tracking-widest hover:bg-[#00ed7e] transition-all active:opacity-80"
         >
           RESUME
         </a>
@@ -79,24 +76,23 @@ export default function Nav() {
       {/* ── Mobile Bottom Nav ───────────────────────────────────────────── */}
       <nav
         aria-label="Mobile navigation"
-        className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden items-center justify-around px-4 py-3 border-t border-[rgba(118,117,119,0.12)]"
-        style={{ backgroundColor: "rgba(14,14,16,0.95)", backdropFilter: "blur(12px)" }}
+        className="fixed bottom-0 w-full z-50 sm:hidden bg-[#0e0e10]/90 backdrop-blur-lg border-t border-[#00FF88]/20 flex justify-around items-center h-16 px-4 shadow-[0_-4px_12px_rgba(0,255,136,0.1)]"
       >
-        <a href="#projects" aria-label="Work" className="flex flex-col items-center gap-1 text-[#8c8c8e] hover:text-[#00ff88] transition-colors">
-          <span className="material-symbols-outlined text-xl" aria-hidden="true">work</span>
-          <span className="font-mono text-[9px] tracking-widest">WORK</span>
+        <a href="#projects" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
+          <span className="material-symbols-outlined text-xl">terminal</span>
+          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">WORK</span>
         </a>
-        <a href="#stack" aria-label="Tech stack" className="flex flex-col items-center gap-1 text-[#8c8c8e] hover:text-[#00ff88] transition-colors">
-          <span className="material-symbols-outlined text-xl" aria-hidden="true">memory</span>
-          <span className="font-mono text-[9px] tracking-widest">TECH</span>
+        <a href="#stack" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
+          <span className="material-symbols-outlined text-xl">memory</span>
+          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">TECH</span>
         </a>
-        <a href="#experience" aria-label="Bio / Experience" className="flex flex-col items-center gap-1 text-[#8c8c8e] hover:text-[#00ff88] transition-colors">
-          <span className="material-symbols-outlined text-xl" aria-hidden="true">person</span>
-          <span className="font-mono text-[9px] tracking-widest">BIO</span>
+        <a href="#experience" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
+          <span className="material-symbols-outlined text-xl">history</span>
+          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">BIO</span>
         </a>
-        <a href="#contact" aria-label="Contact" className="flex flex-col items-center gap-1 text-[#8c8c8e] hover:text-[#00ff88] transition-colors">
-          <span className="material-symbols-outlined text-xl" aria-hidden="true">mail</span>
-          <span className="font-mono text-[9px] tracking-widest">MAIL</span>
+        <a href="#contact" className="flex flex-col items-center justify-center text-[#f9f5f8]/40 active:text-[#00FF88] transition-all">
+          <span className="material-symbols-outlined text-xl">alternate_email</span>
+          <span className="font-label text-[8px] tracking-widest mt-1 uppercase">MAIL</span>
         </a>
       </nav>
     </>

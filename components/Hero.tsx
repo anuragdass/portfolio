@@ -1,125 +1,112 @@
 import Image from "next/image";
 
-const MARQUEE_ITEMS = [
-  "Python",
-  "Django",
-  "FastAPI",
-  "LangChain",
-  "LangGraph",
-  "Vertex AI",
-  "PostgreSQL",
-  "Celery",
-  "Docker",
-  "RAG Systems",
-];
+const MARQUEE_TEXT =
+  "PYTHON // DJANGO // FASTAPI // LANGCHAIN // LANGGRAPH // VERTEX AI // POSTGRESQL // CELERY // DOCKER // RAG SYSTEMS // ";
 
 export default function Hero() {
-  // Duplicate for seamless loop
-  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
-
   return (
     <section
-      id="hero"
+      id="home"
       aria-label="Introduction"
-      className="min-h-screen pt-20 pb-16 md:pt-0 flex items-center px-6 md:px-8 lg:px-16"
+      className="min-h-[calc(100vh-5rem)] flex flex-col md:flex-row relative overflow-hidden border-b border-outline-variant/10"
     >
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12 items-center">
-
-        {/* ── Left: Text ────────────────────────────────────────────────── */}
-        <div className="flex flex-col gap-6">
-          {/* Micro-label */}
-          <span className="font-mono text-xs tracking-[0.2em] text-[#00ff88] uppercase">
-            00 // BACKEND ARCHITECT
-          </span>
-
-          {/* Main headline */}
-          <h1
-            className="font-headline font-bold text-5xl md:text-7xl lg:text-8xl leading-none tracking-[-0.03em] text-[#f9f5f8] uppercase"
-          >
-            BACKEND
-            <br />
-            ARCHITECT
-          </h1>
-
-          {/* Tagline */}
-          <p className="font-mono text-sm tracking-widest text-[#8c8c8e] uppercase">
-            Software Engineer · AI &amp; Backend Architect
-          </p>
-
-          {/* Description */}
-          <p className="font-body text-base leading-relaxed text-[#8c8c8e] max-w-lg">
-            Building scalable backend systems and production-grade Generative AI
-            solutions with a focus on low-latency performance.
-          </p>
-
-          {/* Education badge */}
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-[10px] tracking-[0.15em] text-[#8c8c8e] uppercase border border-[rgba(118,117,119,0.15)] px-3 py-1">
-              MCA IN AI &amp; ML · SRHU · 9.1 CGPA
-            </span>
-          </div>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-4 mt-2">
-            <a
-              href="#projects"
-              className="font-mono text-xs tracking-widest px-6 py-3 bg-[#00ff88] text-[#0e0e10] font-bold hover:bg-[#00e07a] transition-colors"
-            >
-              VIEW PROJECTS
-            </a>
-            <a
-              href="#contact"
-              className="font-mono text-xs tracking-widest px-6 py-3 border border-[#f9f5f8] text-[#f9f5f8] hover:border-[#00ff88] hover:text-[#00ff88] transition-colors"
-            >
-              GET IN TOUCH
-            </a>
-          </div>
-
-          {/* Status indicator */}
-          <div className="flex items-center gap-2 mt-2">
-            <span className="inline-block w-2 h-2 rounded-none bg-[#00ff88] animate-pulse" />
-            <span className="font-mono text-[10px] tracking-[0.2em] text-[#00ff88] uppercase">
-              STATUS: OPTIMAL
-            </span>
-          </div>
+      {/* ── Left: Text content ────────────────────────────────────────── */}
+      <div className="flex-1 flex flex-col justify-center px-8 md:px-16 py-20 z-10">
+        <div className="font-label text-primary mb-6 tracking-[0.4em] text-xs">
+          / SOFTWARE ENGINEER · AI &amp; BACKEND ARCHITECT
         </div>
 
-        {/* ── Right: Profile Image + Marquee ────────────────────────────── */}
-        <div className="relative flex items-center gap-4 justify-center md:justify-end">
-          {/* Vertical marquee */}
-          <div
-            aria-hidden="true"
-            className="hidden lg:flex flex-col overflow-hidden h-80 w-20"
+        <h1 className="font-headline text-6xl md:text-8xl font-extrabold tracking-tighter leading-[0.9] mb-8">
+          BACKEND
+          <br />
+          ARCHITECT
+        </h1>
+
+        <p className="max-w-md text-on-surface-variant font-body text-lg mb-12 leading-relaxed">
+          Building scalable backend systems and production-grade Generative AI
+          solutions with a focus on low-latency performance.
+        </p>
+
+        <div className="flex flex-wrap gap-4">
+          <a
+            href="#projects"
+            className="bg-primary text-on-primary px-10 py-4 font-headline font-bold tracking-widest text-sm hover:-translate-y-0.5 transition-transform"
           >
-            <div
-              className="flex flex-col gap-6"
-              style={{ animation: "marquee-vertical 30s linear infinite" }}
-            >
-              {items.map((tech, i) => (
-                <span
-                  key={i}
-                  className="font-mono text-[9px] tracking-[0.2em] text-[#1f1f22] uppercase whitespace-nowrap"
-                  style={{ writingMode: "vertical-rl" }}
-                >
-                  {tech}
-                </span>
-              ))}
+            VIEW PROJECTS
+          </a>
+          <a
+            href="#contact"
+            className="border border-outline px-10 py-4 font-headline font-bold tracking-widest text-sm text-on-surface hover:bg-on-surface hover:text-background transition-all"
+          >
+            GET IN TOUCH
+          </a>
+        </div>
+
+        {/* Education */}
+        <div className="mt-16 pt-8 border-t border-outline-variant/20 flex items-center gap-6">
+          <div>
+            <div className="font-label text-on-surface-variant text-[10px] tracking-widest mb-1 uppercase">
+              Academic_Background
+            </div>
+            <div className="font-headline text-sm font-bold text-on-surface">
+              MCA IN AI &amp; ML
+            </div>
+            <div className="text-[10px] text-primary tracking-widest">
+              SRHU · 9.1 CGPA
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Image frame */}
-          <div className="relative neon-border corner-bracket scanlines">
-            <Image
-              src="/images/profile.jpg"
-              alt="Anurag Das"
-              width={320}
-              height={400}
-              className="img-noir block"
-              priority
-            />
+      {/* ── Right: Tech Noir Panel ─────────────────────────────────────── */}
+      <div className="hidden md:flex w-[35%] border-l border-outline-variant/20 relative bg-surface-container-lowest overflow-hidden z-10 flex-col items-center justify-center">
+        {/* Vertical tech marquee — background */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 flex justify-center pointer-events-none select-none overflow-hidden"
+        >
+          <div className="flex flex-col animate-marquee-vertical h-fit whitespace-nowrap">
+            <span className="font-mono text-7xl font-black text-outline opacity-[0.05] tracking-tighter uppercase [writing-mode:vertical-rl] py-8">
+              {MARQUEE_TEXT}
+            </span>
+            <span className="font-mono text-7xl font-black text-outline opacity-[0.05] tracking-tighter uppercase [writing-mode:vertical-rl] py-8">
+              {MARQUEE_TEXT}
+            </span>
           </div>
         </div>
 
+        {/* Profile image */}
+        <div className="relative z-20 w-3/4 aspect-square max-w-sm group">
+          <div className="absolute inset-0 border border-primary/20 image-glow transition-all duration-500 group-hover:border-primary/40" />
+          <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-primary" />
+          <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-primary" />
+          <div className="relative w-full h-full overflow-hidden bg-black/50 tech-noir-image">
+            <Image
+              src="/images/profile.png"
+              alt="Anurag Das"
+              fill
+              className="object-cover grayscale mix-blend-luminosity opacity-80 group-hover:scale-105 transition-transform duration-1000"
+              priority
+            />
+            <div className="scanlines" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+          </div>
+
+          {/* UID overlay */}
+          <div className="absolute bottom-4 left-4 font-mono text-[10px] text-primary tracking-widest bg-black/80 px-2 py-1 border border-primary/20 backdrop-blur-sm z-30">
+            UID: AD_ARCHITECT_99
+          </div>
+        </div>
+
+        {/* Status */}
+        <div className="absolute bottom-12 right-12 text-right z-20">
+          <div className="font-label text-primary text-[10px] tracking-widest mb-1 opacity-60 uppercase">
+            SYSTEM_STATUS
+          </div>
+          <div className="font-headline text-3xl font-bold text-on-surface">
+            OPTIMAL
+          </div>
+        </div>
       </div>
     </section>
   );
