@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens (Tailwind v4 @theme) ─────────────────────────────────── */
+@theme inline {
+  /* Colors */
+  --color-noir-bg:         #0e0e10;
+  --color-noir-void:       #000000;
+  --color-noir-surface:    #141416;
+  --color-noir-elevated:   #1f1f22;
+  --color-noir-fg:         #f9f5f8;
+  --color-noir-muted:      #8c8c8e;
+  --color-primary:         #00ff88;
+  --color-primary-dim:     rgba(0, 255, 136, 0.1);
+
+  /* Typography */
+  --font-headline: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  --font-body:     var(--font-inter), "Inter", sans-serif;
+  --font-mono:     var(--font-space-mono), "Space Mono", monospace;
+
+  /* Border radius — zero everywhere (Tech Noir rule) */
+  --radius-none: 0px;
+  --radius-sm:   0px;
+  --radius:      0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-xl:   0px;
+  --radius-2xl:  0px;
+  --radius-3xl:  0px;
+  --radius-full: 0px;
+
+  /* Animations */
+  --animate-marquee:          marquee 60s linear infinite;
+  --animate-marquee-vertical: marquee-vertical 30s linear infinite;
+
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-vertical {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+}
+
+/* ─── Base Reset ──────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0e0e10;
+}
+
+body {
+  background-color: #0e0e10;
+  color: #f9f5f8;
+  font-family: var(--font-inter), "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Global Noise Overlay ────────────────────────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Reusable Effect Classes ─────────────────────────────────────────────── */
+
+/* Neon glow on element border */
+.glow-accent {
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
+}
+
+/* Text glow */
+.text-glow {
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+/* Ghost border — tonal shift without a hard line */
+.ghost-border {
+  border: 1px solid rgba(118, 117, 119, 0.15);
+}
+
+/* Neon border */
+.neon-border {
+  border: 1px solid #00ff88;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.15);
+}
+
+/* Scanlines overlay on images */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+  pointer-events: none;
+}
+
+/* Tech-noir image treatment */
+.img-noir {
+  filter: grayscale(100%) contrast(110%) brightness(80%);
+}
+
+/* Corner bracket decoration */
+.corner-bracket::before,
+.corner-bracket::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #00ff88;
+  border-style: solid;
+}
+.corner-bracket::before {
+  top: -2px;
+  left: -2px;
+  border-width: 2px 0 0 2px;
+}
+.corner-bracket::after {
+  bottom: -2px;
+  right: -2px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Capability bar hover animation base */
+.cap-bar {
+  display: block;
+  height: 2px;
+  width: 8px;
+  background-color: #00ff88;
+  transition: width 0.4s ease;
+}
+.cap-card:hover .cap-bar {
+  width: 100%;
+}
+
+/* Nav active underline */
+.nav-link-active::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: #00ff88;
+  margin-top: 2px;
+  width: 100%;
+}
