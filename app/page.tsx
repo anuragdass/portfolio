@@ -1,6 +1,5 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import MarqueeStrip from "@/components/MarqueeStrip";
 import Stack from "@/components/Stack";
 import Capabilities from "@/components/Capabilities";
 import Projects from "@/components/Projects";
@@ -18,7 +17,6 @@ export default function Home() {
 
       <main className="pt-20">
         <Hero />
-        <MarqueeStrip />
         <Stack />
         <Capabilities />
         <Projects />
