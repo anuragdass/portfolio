@@ -2,16 +2,17 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
+/* Order matches page flow: Hero → Stack → … → Projects → … → Experience → Contact */
 const NAV_ITEMS = [
-  { label: "/PROJECTS", href: "#projects" },
   { label: "/STACK", href: "#stack" },
+  { label: "/PROJECTS", href: "#projects" },
   { label: "/EXPERIENCE", href: "#experience" },
   { label: "/CONTACT", href: "#contact" },
 ] as const;
 
 const MOBILE_ITEMS = [
-  { icon: "terminal", short: "WORK" },
   { icon: "memory", short: "TECH" },
+  { icon: "terminal", short: "WORK" },
   { icon: "history", short: "BIO" },
   { icon: "alternate_email", short: "MAIL" },
 ] as const;
