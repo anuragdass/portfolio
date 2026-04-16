@@ -109,8 +109,8 @@ export default function Nav() {
         </div>
 
         <a
-          href="/resume-anurag-das.pdf"
-          download="resume_anurag_ai_engg.pdf"
+          href="/anurag_das_resume_python.pdf"
+          download="anurag_das_resume_python.pdf"
           className="bg-[#00FF88] text-on-primary px-6 py-2 font-headline font-bold text-xs tracking-widest hover:bg-[#00ed7e] transition-all active:opacity-80"
         >
           RESUME
